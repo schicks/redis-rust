@@ -27,8 +27,7 @@ pub fn command(
 
 #[cfg(test)]
 mod test {
-    use super::{command, Data, HashMap, Primitive};
-    use itertools::Itertools;
+    use super::{command, Data, HashMap, HashSet, Primitive};
     use proptest::collection::vec;
     use proptest::prelude::*;
 
@@ -36,9 +35,9 @@ mod test {
         #[test]
         fn returns_n_added(key in "\".*\"", values in vec(any::<Primitive>(), 100)) {
             let mut store: HashMap<String, Data> = HashMap::new();
-            let size = values.iter().unique().count();
+            let size = values.iter().collect::<HashSet<&Primitive>>().drain().count();
 
-            assert_eq!(command(&mut store, &key, values.into())?, size)
+            assert_eq!(command(&mut store, &key, values)?, size)
         }
     }
 }
