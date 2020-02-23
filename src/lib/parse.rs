@@ -1,5 +1,5 @@
-use crate::domain::{Command, Primitive};
-use crate::errors::{ApplicationError, Fallible};
+use super::domain::{Command, Primitive};
+use super::errors::{ApplicationError, Fallible};
 
 pub fn parse_cmd(cmd: String) -> Result<Command, ApplicationError> {
     let mut args = cmd.split_whitespace();
@@ -42,8 +42,8 @@ pub fn parse_data(data: &str) -> Result<Primitive, ApplicationError> {
 
 #[cfg(test)]
 mod test {
+    use super::super::domain::Primitive;
     use super::parse_data;
-    use crate::domain::Primitive;
     use proptest::prelude::*;
 
     proptest! {

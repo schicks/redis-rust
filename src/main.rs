@@ -1,13 +1,11 @@
-mod domain;
-mod errors;
-mod incr;
-mod parse;
-mod sadd;
-use domain::{Command, Data};
-use errors::{ApplicationError, Fallible, Flattenable};
-use parse::parse_cmd;
+mod lib;
+
+use lib::domain::{Command, Data};
+use lib::errors::{ApplicationError, Fallible, Flattenable};
+use lib::parse::parse_cmd;
+use lib::{incr, sadd};
 use std::collections::HashMap;
-use std::io;
+use std::io::{self, Write};
 
 fn execute(
     store: &mut HashMap<String, Data>,
@@ -27,13 +25,15 @@ fn execute(
                 .fail_to(&format!("No value at key {}", key))?
         )),
         Command::Incr(key) => incr::command(store, &key).map(|v| format!("{}", v)),
-        Command::Sadd(key, value) => sadd::command(store, key, value).map(|v| format!("{}", v)),
+        Command::Sadd(key, value) => sadd::command(store, &key, value).map(|v| format!("{}", v)),
     }
 }
 
 fn main() {
     let mut root_namespace: HashMap<String, Data> = HashMap::new();
     loop {
+        print!("ruddis-cli# ");
+        io::stdout().flush().unwrap();
         let mut input = String::new();
         match io::stdin()
             .read_line(&mut input)

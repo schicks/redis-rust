@@ -1,5 +1,5 @@
 [package]
-name = "redis-rust"
+name = "ruddis"
 version = "0.1.0"
 authors = ["Sam Schick <sam-schick@pluralsight.com>"]
 edition = "2018"

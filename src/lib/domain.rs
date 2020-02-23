@@ -6,6 +6,18 @@ pub enum Primitive {
     Number(i64),
 }
 
+impl From<String> for Primitive {
+    fn from(primitive: String) -> Self {
+        Primitive::String(primitive)
+    }
+}
+
+impl From<i64> for Primitive {
+    fn from(primitive: i64) -> Self {
+        Primitive::Number(primitive)
+    }
+}
+
 pub enum Data {
     Primitive(Primitive),
     Set(HashSet<Primitive>),
@@ -14,7 +26,7 @@ pub enum Data {
 impl std::fmt::Display for Data {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Data::Primitive(Primitive::String(s)) => write!(f, "{}", s),
+            Data::Primitive(Primitive::String(s)) => write!(f, "\"{}\"", s),
             Data::Primitive(Primitive::Number(n)) => write!(f, "{}", n),
             Data::Set(_) => write!(f, "<Set>"),
         }
@@ -30,13 +42,13 @@ impl From<Primitive> for Data {
 
 impl From<String> for Data {
     fn from(data: String) -> Self {
-        Primitive::String(data).into()
+        Data::Primitive(Primitive::String(data))
     }
 }
 
 impl From<i64> for Data {
     fn from(data: i64) -> Self {
-        Primitive::Number(data).into()
+        Data::Primitive(Primitive::Number(data))
     }
 }
 
