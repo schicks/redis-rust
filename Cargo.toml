@@ -10,3 +10,5 @@ edition = "2018"
 
 [dev-dependencies]
 proptest = "0.9.5"
+proptest-derive = "0.1.0"
+itertools = "0.8.2"

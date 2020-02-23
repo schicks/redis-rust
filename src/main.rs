@@ -25,7 +25,7 @@ fn execute(
                 .fail_to(&format!("No value at key {}", key))?
         )),
         Command::Incr(key) => incr::command(store, &key).map(|v| format!("{}", v)),
-        Command::Sadd(key, value) => sadd::command(store, &key, value).map(|v| format!("{}", v)),
+        Command::Sadd(key, values) => sadd::command(store, &key, values).map(|v| format!("{}", v)),
     }
 }
 

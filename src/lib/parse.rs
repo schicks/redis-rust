@@ -1,5 +1,6 @@
 use super::domain::{Command, Primitive};
 use super::errors::{ApplicationError, Fallible};
+use std::collections::LinkedList;
 
 pub fn parse_cmd(cmd: String) -> Result<Command, ApplicationError> {
     let mut args = cmd.split_whitespace();
@@ -19,13 +20,22 @@ pub fn parse_cmd(cmd: String) -> Result<Command, ApplicationError> {
         "incr" => Ok(Command::Incr(
             args.next().fail_to("No key provided")?.into(),
         )),
-        "sadd" => Ok(Command::Sadd(
-            args.next().fail_to("No key provided")?.into(),
-            args.next()
-                .fail_to("No value provided")
-                .map(parse_data)?
-                .map(|val| val.into())?,
-        )),
+        "sadd" => {
+            let key = args.next().fail_to("No key provided")?;
+            let values: Vec<Primitive> = args
+                .map(parse_data)
+                .fold(Ok(LinkedList::new()), |acc, item| match (acc, item) {
+                    (Ok(mut acc), Ok(item)) => {
+                        acc.push_front(item);
+                        Ok(acc)
+                    }
+                    (Err(acc), _) => Err(acc),
+                    (_, Err(item)) => Err(item),
+                })?
+                .into_iter()
+                .collect();
+            Ok(Command::Sadd(key.into(), values))
+        }
         unknown_command => Err(format!("No such command: {}", unknown_command).into()),
     }
 }

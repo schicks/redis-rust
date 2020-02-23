@@ -1,6 +1,10 @@
 use std::collections::HashSet;
 
-#[derive(Debug, PartialEq, Eq, Hash)]
+#[cfg(test)]
+use proptest_derive::Arbitrary;
+
+#[derive(Debug, PartialEq, Eq, Hash, Clone)]
+#[cfg_attr(test, derive(Arbitrary))]
 pub enum Primitive {
     String(String),
     Number(i64),
@@ -57,5 +61,5 @@ pub enum Command {
     Set(String, Data),
     Get(String),
     Incr(String),
-    Sadd(String, Primitive),
+    Sadd(String, std::vec::Vec<Primitive>),
 }
