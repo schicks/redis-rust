@@ -3,7 +3,7 @@ mod lib;
 use lib::domain::{Command, Data};
 use lib::errors::{ApplicationError, Fallible, Flattenable};
 use lib::parse::parse_cmd;
-use lib::{incr, sadd};
+use lib::{incr, sadd, scard};
 use std::collections::HashMap;
 use std::io::{self, Write};
 
@@ -26,6 +26,7 @@ fn execute(
         )),
         Command::Incr(key) => incr::command(store, &key).map(|v| format!("{}", v)),
         Command::Sadd(key, values) => sadd::command(store, &key, values).map(|v| format!("{}", v)),
+        Command::Scard(key) => scard::command(store, &key).map(|v| format!("{}", v)),
     }
 }
 

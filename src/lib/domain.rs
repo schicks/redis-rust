@@ -56,10 +56,17 @@ impl From<i64> for Data {
     }
 }
 
+impl From<HashSet<Primitive>> for Data {
+    fn from(data: HashSet<Primitive>) -> Self {
+        Data::Set(data)
+    }
+}
+
 pub enum Command {
     Echo(String),
     Set(String, Data),
     Get(String),
     Incr(String),
     Sadd(String, std::vec::Vec<Primitive>),
+    Scard(String),
 }

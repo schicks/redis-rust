@@ -3,3 +3,4 @@ pub mod errors;
 pub mod incr;
 pub mod parse;
 pub mod sadd;
+pub mod scard;
