@@ -1,5 +1,5 @@
-use super::domain::{Data, Primitive};
-use super::errors::ApplicationError;
+use super::super::domain::{Data, Primitive};
+use super::super::errors::ApplicationError;
 use std::collections::{HashMap, HashSet};
 
 fn insert_values(set: &mut HashSet<Primitive>, values: Vec<Primitive>) -> usize {

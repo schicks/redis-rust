@@ -39,6 +39,13 @@ pub fn parse_cmd(cmd: String) -> Result<Command, ApplicationError> {
         "scard" => Ok(Command::Scard(
             args.next().fail_to("No key provided")?.into(),
         )),
+        "sismember" => Ok(Command::Sismember(
+            args.next().fail_to("No key provided")?.into(),
+            args.next()
+                .fail_to("No value provided")
+                .map(parse_primitive)??
+                .into(),
+        )),
         unknown_command => Err(format!("No such command: {}", unknown_command).into()),
     }
 }

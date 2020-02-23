@@ -69,4 +69,5 @@ pub enum Command {
     Incr(String),
     Sadd(String, std::vec::Vec<Primitive>),
     Scard(String),
+    Sismember(String, Primitive)
 }

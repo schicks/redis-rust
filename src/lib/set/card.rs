@@ -1,5 +1,5 @@
-use super::domain::Data;
-use super::errors::{ApplicationError, Fallible};
+use super::super::domain::Data;
+use super::super::errors::{ApplicationError, Fallible};
 use std::collections::HashMap;
 
 pub fn command(store: &mut HashMap<String, Data>, key: &str) -> Result<usize, ApplicationError> {
@@ -11,7 +11,7 @@ pub fn command(store: &mut HashMap<String, Data>, key: &str) -> Result<usize, Ap
 
 #[cfg(test)]
 mod test {
-  use super::super::domain::Primitive;
+  use super::super::super::domain::Primitive;
   use super::{command, Data, HashMap};
   use proptest::collection::hash_set;
   use proptest::prelude::*;
