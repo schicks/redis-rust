@@ -16,7 +16,8 @@ jobs:
             - run:
                 name: Build
                 command: cargo build
-            - run: Test
+            - run: 
+                name: Test
                 command: cargo test
             - save-cache: 
                 key: project-cache
