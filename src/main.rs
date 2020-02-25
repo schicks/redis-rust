@@ -35,6 +35,9 @@ fn execute(
         Command::SdiffStore(destination, base_key, keys) => {
             set::diffstore::command(store, &destination, &base_key, &keys).map(|v| format!("{}", v))
         }
+        Command::SinterStore(destination, keys) => {
+            set::interstore::command(store, &destination, &keys).map(|v| format!("{}", v))
+        }
     }
 }
 

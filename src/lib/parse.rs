@@ -51,6 +51,10 @@ pub fn parse_cmd(cmd: String) -> Result<Command, ApplicationError> {
             args.next().fail_to("No base key provided")?.into(),
             args.map(String::from).collect(),
         )),
+        "sinterstore" => Ok(Command::SinterStore(
+            args.next().fail_to("No destination provided")?.into(),
+            args.map(String::from).collect(),
+        )),
         unknown_command => Err(format!("No such command: {}", unknown_command).into()),
     }
 }
