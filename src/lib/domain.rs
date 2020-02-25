@@ -71,5 +71,5 @@ pub enum Command {
     Sadd(String, std::vec::Vec<Primitive>),
     Scard(String),
     Sismember(String, Primitive),
-    SdiffStore(String, String, std::vec::Vec<String>)
+    SdiffStore(String, String, std::vec::Vec<String>),
 }

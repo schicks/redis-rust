@@ -12,7 +12,7 @@ jobs:
                 name: Lint
                 command: |
                     rustfmt --version
-                    cargo fmt -- --write-mode=diff
+                    cargo fmt -- --check
             - run:
                 name: Build
                 command: cargo build

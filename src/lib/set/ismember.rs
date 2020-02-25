@@ -1,7 +1,6 @@
 use super::super::domain::{Data, Primitive};
 use super::super::errors::ApplicationError;
-use std::collections::{HashMap};
-
+use std::collections::HashMap;
 
 pub fn command(
     store: &mut HashMap<String, Data>,
