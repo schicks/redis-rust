@@ -72,4 +72,5 @@ pub enum Command {
     Scard(String),
     Sismember(String, Primitive),
     SdiffStore(String, String, std::vec::Vec<String>),
+    SinterStore(String, std::vec::Vec<String>),
 }
