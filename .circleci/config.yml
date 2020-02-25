@@ -1,25 +1,25 @@
 # referencing https://abronan.com/building-a-rust-project-on-circleci/
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/rust:latest
-    steps:
-      - checkout
-      - restore-cache:
-        key: project-cache
-      - run:
-        name: Lint
-        command: |
-          rustfmt --version
-          cargo fmt -- --write-mode=diff
-      - run:
-        name: Build
-        command: cargo build
-      - run: Test
-        command: cargo test
-      - save-cache: 
-        key: project-cache
-        paths:
-          - ~/.cargo
-          - ./target
+    build:
+        docker:
+            - image: circleci/rust:latest
+        steps:
+            - checkout
+            - restore-cache:
+                key: project-cache
+            - run:
+                name: Lint
+                command: |
+                    rustfmt --version
+                    cargo fmt -- --write-mode=diff
+            - run:
+                name: Build
+                command: cargo build
+            - run: Test
+                command: cargo test
+            - save-cache: 
+                key: project-cache
+                paths:
+                    - ~/.cargo
+                    - ./target
