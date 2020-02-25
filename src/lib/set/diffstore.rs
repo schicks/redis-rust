@@ -54,8 +54,8 @@ mod test {
       fn difference_is_idempotent(
         dest in any::<String>(),
         snd_dest in any::<String>(),
-        a in (any::<String>(), hash_set(any::<Primitive>(), 100)),
-        b in (any::<String>(), hash_set(any::<Primitive>(), 100))
+        a in (any::<String>(), hash_set(any::<Primitive>(), 1..100)),
+        b in (any::<String>(), hash_set(any::<Primitive>(), 1..100))
       ) {
           let mut store: HashMap<String, Data> = HashMap::new();
           let (a_key, a_set) = a;
@@ -72,7 +72,7 @@ mod test {
       #[test]
       fn self_difference_is_empty(
         dest in any::<String>(),
-        a in (any::<String>(), hash_set(any::<Primitive>(), 100))
+        a in (any::<String>(), hash_set(any::<Primitive>(), 1..100))
       ) {
           let mut store: HashMap<String, Data> = HashMap::new();
           let (a_key, a_set) = a;
@@ -87,8 +87,8 @@ mod test {
       #[test]
       fn returns_size_of_dest(
         dest in any::<String>(),
-        a in (any::<String>(), hash_set(any::<Primitive>(), 100)),
-        b in (any::<String>(), hash_set(any::<Primitive>(), 100))
+        a in (any::<String>(), hash_set(any::<Primitive>(), 1..100)),
+        b in (any::<String>(), hash_set(any::<Primitive>(), 1..100))
       ) {
           let mut store: HashMap<String, Data> = HashMap::new();
           let (a_key, a_set) = a;

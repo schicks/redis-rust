@@ -33,7 +33,7 @@ mod test {
 
     proptest! {
         #[test]
-        fn returns_n_added(key in "\".*\"", values in vec(any::<Primitive>(), 100)) {
+        fn returns_n_added(key in "\".*\"", values in vec(any::<Primitive>(), 1..100)) {
             let mut store: HashMap<String, Data> = HashMap::new();
             let size = values.iter().collect::<HashSet<&Primitive>>().drain().count();
 
