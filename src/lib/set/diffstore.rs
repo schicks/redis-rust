@@ -1,6 +1,6 @@
 use super::super::domain::{Data, Primitive};
 use super::super::errors::ApplicationError;
-use super::utilities::get_set;
+use super::utilities::{get_set, get_sets};
 use std::collections::{HashMap, HashSet};
 
 pub fn command(
@@ -9,16 +9,7 @@ pub fn command(
     base_key: &str,
     keys: &[String],
 ) -> Result<usize, ApplicationError> {
-    let sets = keys.iter().map(|key| get_set(&store, key)).fold(
-        Ok(Vec::with_capacity(keys.len())),
-        |acc, next| match (acc, next) {
-            (Err(e), _) | (_, Err(e)) => Err(e),
-            (Ok(mut acc), Ok(a)) => {
-                acc.push(a);
-                Ok(acc)
-            }
-        },
-    )?;
+    let sets = get_sets(store, keys)?;
     let result: HashSet<Primitive> = get_set(store, base_key)?
         .iter()
         .filter(|el| sets.iter().all(|set| !set.contains(el)))

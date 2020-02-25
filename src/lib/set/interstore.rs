@@ -1,6 +1,6 @@
 use super::super::domain::{Data, Primitive};
 use super::super::errors::ApplicationError;
-use super::utilities::get_set;
+use super::utilities::get_sets;
 use std::collections::{HashMap, HashSet};
 
 pub fn command(
@@ -11,16 +11,7 @@ pub fn command(
     if keys.len() < 2 {
         return Err(String::from("Not enough sets to intersect").into());
     };
-    let sets = keys.iter().map(|key| get_set(&store, key)).fold(
-        Ok(Vec::with_capacity(keys.len())),
-        |acc, next| match (acc, next) {
-            (Err(e), _) | (_, Err(e)) => Err(e),
-            (Ok(mut acc), Ok(a)) => {
-                acc.push(a);
-                Ok(acc)
-            }
-        },
-    )?;
+    let sets = get_sets(store, keys)?;
     let minimal = if let Some(set) = sets.iter().min_by_key(|set| set.len()) {
         set
     } else {
