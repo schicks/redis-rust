@@ -46,6 +46,11 @@ pub fn parse_cmd(cmd: String) -> Result<Command, ApplicationError> {
                 .map(parse_primitive)??
                 .into(),
         )),
+        "sdiff" => Ok(Command::Sdiff(
+            args.next().fail_to("No destination provided")?.into(),
+            args.next().fail_to("No base key provided")?.into(),
+            args.map(String::from).collect(),
+        )),
         unknown_command => Err(format!("No such command: {}", unknown_command).into()),
     }
 }

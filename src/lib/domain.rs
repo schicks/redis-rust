@@ -22,6 +22,7 @@ impl From<i64> for Primitive {
     }
 }
 
+#[derive(Debug, PartialEq)]
 pub enum Data {
     Primitive(Primitive),
     Set(HashSet<Primitive>),
@@ -69,5 +70,6 @@ pub enum Command {
     Incr(String),
     Sadd(String, std::vec::Vec<Primitive>),
     Scard(String),
-    Sismember(String, Primitive)
+    Sismember(String, Primitive),
+    Sdiff(String, String, std::vec::Vec<String>)
 }

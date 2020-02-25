@@ -27,7 +27,8 @@ fn execute(
         Command::Incr(key) => incr::command(store, &key).map(|v| format!("{}", v)),
         Command::Sadd(key, values) => set::add::command(store, &key, values).map(|v| format!("{}", v)),
         Command::Scard(key) => set::card::command(store, &key).map(|v| format!("{}", v)),
-        Command::Sismember(key, member) => set::ismember::command(store, &key, &member).map(|v| format!("{}", v))
+        Command::Sismember(key, member) => set::ismember::command(store, &key, &member).map(|v| format!("{}", v)),
+        Command::Sdiff(destination, base_key, keys) => set::diff::command(store, &destination, &base_key, &keys).map(|v| format!("{}", v)),
     }
 }
 
