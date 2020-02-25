@@ -1,5 +1,5 @@
 use super::super::domain::{Data, Primitive};
-use super::super::errors::{ApplicationError, Fallible, Flattenable};
+use super::super::errors::ApplicationError;
 use super::utilities::get_set;
 use std::collections::{HashMap, HashSet};
 
@@ -9,23 +9,21 @@ pub fn command(
     base_key: &str,
     keys: &[String],
 ) -> Result<usize, ApplicationError> {
-    let mut result: HashSet<Primitive> = get_set(store, base_key)?.iter().cloned().collect();
-    let mut iterated = keys.iter().map(|key| get_set(&store, key));
-    let first = iterated.next().fail_to("No sets to difference").flatten()?;
-    iterated
-        .fold(Ok(vec![first]), |acc, next| match (acc, next) {
+    let sets = keys.iter().map(|key| get_set(&store, key)).fold(
+        Ok(Vec::with_capacity(keys.len())),
+        |acc, next| match (acc, next) {
             (Err(e), _) | (_, Err(e)) => Err(e),
             (Ok(mut acc), Ok(a)) => {
                 acc.push(a);
                 Ok(acc)
             }
-        })?
+        },
+    )?;
+    let result: HashSet<Primitive> = get_set(store, base_key)?
         .iter()
-        .for_each(|set| {
-            set.iter().for_each(|el| {
-                result.remove(el);
-            })
-        });
+        .filter(|el| sets.iter().all(|set| !set.contains(el)))
+        .cloned()
+        .collect();
     let size = result.len();
     store.insert(destination.to_string(), result.into());
     Ok(size)
