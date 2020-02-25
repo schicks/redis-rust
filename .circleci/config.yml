@@ -1,5 +1,5 @@
 # referencing https://abronan.com/building-a-rust-project-on-circleci/
-version: 2.1
+version: 2
 jobs:
   build:
     docker:
