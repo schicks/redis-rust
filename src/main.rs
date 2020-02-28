@@ -38,6 +38,14 @@ fn execute(
         Command::SinterStore(destination, keys) => {
             set::interstore::command(store, &destination, &keys).map(|v| format!("{}", v))
         }
+        Command::Sunion(keys) => Ok(set::union::command(store, &keys)?
+            .iter()
+            .enumerate()
+            .map(|(i, el)| format!("{}) {}\n", i, el))
+            .collect()),
+        Command::SunionStore(destination, keys) => {
+            set::union::store_command(store, &destination, &keys).map(|v| format!("{}", v))
+        }
     }
 }
 

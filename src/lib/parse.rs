@@ -55,6 +55,11 @@ pub fn parse_cmd(cmd: String) -> Result<Command, ApplicationError> {
             args.next().fail_to("No destination provided")?.into(),
             args.map(String::from).collect(),
         )),
+        "sunion" => Ok(Command::Sunion(args.map(String::from).collect())),
+        "sunionstore" => Ok(Command::SunionStore(
+            args.next().fail_to("No destination provided")?.into(),
+            args.map(String::from).collect(),
+        )),
         unknown_command => Err(format!("No such command: {}", unknown_command).into()),
     }
 }

@@ -10,6 +10,15 @@ pub enum Primitive {
     Number(i64),
 }
 
+impl std::fmt::Display for Primitive {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Primitive::String(s) => write!(f, "\"{}\"", s),
+            Primitive::Number(n) => write!(f, "{}", n),
+        }
+    }
+}
+
 impl From<String> for Primitive {
     fn from(primitive: String) -> Self {
         Primitive::String(primitive)
@@ -31,11 +40,9 @@ pub enum Data {
 impl std::fmt::Display for Data {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Data::Primitive(Primitive::String(s)) => write!(f, "\"{}\"", s),
-            Data::Primitive(Primitive::Number(n)) => write!(f, "{}", n),
+            Data::Primitive(p) => p.fmt(f),
             Data::Set(_) => write!(f, "<Set>"),
         }
-        // write!(f, "({}, {})", self.longitude, self.latitude)
     }
 }
 
@@ -68,9 +75,11 @@ pub enum Command {
     Set(String, Data),
     Get(String),
     Incr(String),
-    Sadd(String, std::vec::Vec<Primitive>),
+    Sadd(String, Vec<Primitive>),
     Scard(String),
     Sismember(String, Primitive),
-    SdiffStore(String, String, std::vec::Vec<String>),
-    SinterStore(String, std::vec::Vec<String>),
+    SdiffStore(String, String, Vec<String>),
+    SinterStore(String, Vec<String>),
+    Sunion(Vec<String>),
+    SunionStore(String, Vec<String>),
 }
