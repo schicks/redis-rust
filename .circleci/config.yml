@@ -28,3 +28,9 @@ jobs:
                 paths:
                     - ~/.cargo
                     - ./target
+workflows:
+    version: 2
+    test_and_coverage:
+        jobs:
+            - test
+            - coverage
