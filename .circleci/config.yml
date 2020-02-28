@@ -1,7 +1,14 @@
 # referencing https://abronan.com/building-a-rust-project-on-circleci/
 version: 2
 jobs:
-    build:
+    coverage: 
+        machine: true
+        steps:
+            - checkout
+            - run:
+                name: Docker coverage
+                command: docker run --security-opt seccomp=unconfined -v "${PWD}:/volume" xd009642/tarpaulin
+    test:
         docker:
             - image: circleci/rust:latest
         steps:
@@ -13,9 +20,6 @@ jobs:
                 command: |
                     rustfmt --version
                     cargo fmt -- --check
-            - run:
-                name: Build
-                command: cargo build
             - run: 
                 name: Test
                 command: cargo test
