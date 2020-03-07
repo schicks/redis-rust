@@ -46,11 +46,16 @@ pub fn parse_cmd(cmd: String) -> Result<Command, ApplicationError> {
                 .map(parse_primitive)??
                 .into(),
         )),
+        "sdiff" => Ok(Command::Sdiff(
+            args.next().fail_to("No base key provided")?.into(),
+            args.map(String::from).collect(),
+        )),
         "sdiffstore" => Ok(Command::SdiffStore(
             args.next().fail_to("No destination provided")?.into(),
             args.next().fail_to("No base key provided")?.into(),
             args.map(String::from).collect(),
         )),
+        "sinter" => Ok(Command::Sinter(args.map(String::from).collect())),
         "sinterstore" => Ok(Command::SinterStore(
             args.next().fail_to("No destination provided")?.into(),
             args.map(String::from).collect(),

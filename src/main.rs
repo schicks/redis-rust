@@ -32,11 +32,22 @@ fn execute(
         Command::Sismember(key, member) => {
             set::ismember::command(store, &key, &member).map(|v| format!("{}", v))
         }
+        Command::Sdiff(key, keys) => Ok(set::diff::command(store, &key, &keys)?
+            .iter()
+            .enumerate()
+            .map(|(i, el)| format!("{}) {}\n", i, el))
+            .collect()),
         Command::SdiffStore(destination, base_key, keys) => {
-            set::diffstore::command(store, &destination, &base_key, &keys).map(|v| format!("{}", v))
+            set::diff::store_command(store, &destination, &base_key, &keys)
+                .map(|v| format!("{}", v))
         }
+        Command::Sinter(keys) => Ok(set::inter::command(store, &keys)?
+            .iter()
+            .enumerate()
+            .map(|(i, el)| format!("{}) {}\n", i, el))
+            .collect()),
         Command::SinterStore(destination, keys) => {
-            set::interstore::command(store, &destination, &keys).map(|v| format!("{}", v))
+            set::inter::store_command(store, &destination, &keys).map(|v| format!("{}", v))
         }
         Command::Sunion(keys) => Ok(set::union::command(store, &keys)?
             .iter()
