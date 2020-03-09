@@ -1,5 +1,5 @@
 use super::super::domain::{Data, Primitive};
-use super::super::errors::ApplicationError;
+use super::super::errors::{ApplicationError, Fallible};
 use super::utilities::get_sets;
 use std::collections::{HashMap, HashSet};
 
@@ -7,6 +7,15 @@ pub fn command(
     store: &mut HashMap<String, Data>,
     keys: &[String],
 ) -> Result<HashSet<Primitive>, ApplicationError> {
+    let mut sets = get_sets(store, keys)?;
+    let result: HashSet<Primitive> = sets
+        .pop()
+        .fail_to("pass some keys please")?
+        .iter()
+        .filter(|el| sets.iter().all(|set| set.contains(*el)))
+        .cloned()
+        .collect();
+    Ok(result)
 }
 
 pub fn store_command(

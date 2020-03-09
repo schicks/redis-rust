@@ -7,6 +7,14 @@ pub fn command(
     store: &mut HashMap<String, Data>,
     keys: &[String],
 ) -> Result<HashSet<Primitive>, ApplicationError> {
+    let sets = get_sets(store, keys)?;
+    let mut result: HashSet<Primitive> = HashSet::new();
+    sets.iter().for_each(|set| {
+        set.iter().for_each(|el| {
+            result.insert(el.clone());
+        })
+    });
+    Ok(result)
 }
 
 pub fn store_command(
