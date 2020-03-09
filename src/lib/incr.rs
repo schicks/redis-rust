@@ -2,20 +2,7 @@ use super::domain::{Data, Primitive};
 use super::errors::ApplicationError;
 use std::collections::HashMap;
 
-pub fn command(store: &mut HashMap<String, Data>, key: &str) -> Result<i64, ApplicationError> {
-    match store.get(key) {
-        Some(Data::Primitive(Primitive::Number(old_val))) => {
-            let val = old_val + 1;
-            store.insert(key.into(), val.into());
-            Ok(val)
-        }
-        Some(bad_value) => Err(format!("{} is not a number", bad_value).into()),
-        None => {
-            store.insert(key.into(), 1.into());
-            Ok(1)
-        }
-    }
-}
+pub fn command(store: &mut HashMap<String, Data>, key: &str) -> Result<i64, ApplicationError> {}
 
 #[cfg(test)]
 mod test {

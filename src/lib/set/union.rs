@@ -7,15 +7,6 @@ pub fn command(
     store: &mut HashMap<String, Data>,
     keys: &[String],
 ) -> Result<HashSet<Primitive>, ApplicationError> {
-    if keys.len() < 2 {
-        return Err(String::from("Not enough sets to union").into());
-    };
-    let sets = get_sets(store, keys)?;
-    Ok(sets
-        .iter()
-        .flat_map(|set| set.into_iter())
-        .cloned()
-        .collect())
 }
 
 pub fn store_command(

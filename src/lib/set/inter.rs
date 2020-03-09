@@ -7,21 +7,6 @@ pub fn command(
     store: &mut HashMap<String, Data>,
     keys: &[String],
 ) -> Result<HashSet<Primitive>, ApplicationError> {
-    if keys.len() < 2 {
-        return Err(String::from("Not enough sets to intersect").into());
-    };
-    let sets = get_sets(store, keys)?;
-    let minimal = if let Some(set) = sets.iter().min_by_key(|set| set.len()) {
-        set
-    } else {
-        return Err(String::from("Not enough sets to intersect").into());
-    };
-    let result: HashSet<Primitive> = minimal
-        .iter()
-        .filter(|el| sets.iter().all(|set| set.contains(el)))
-        .cloned()
-        .collect();
-    Ok(result)
 }
 
 pub fn store_command(
